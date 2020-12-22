@@ -70,8 +70,30 @@ function searchForSolution(boards){
       return tryPath
     } 
     else{
-      searchForSolution(boards)
+      return searchForSolution(boards)
     }
   }
+}
+
+function solved(board){
+  for(var i = 0; i<9; i++){
+    for(var j = 0; j<9; j++){
+      if(board[i][j] == null){
+        return false
+      }
+    }
+  }
+  return true
+}
+
+function nextBoards(board){
+  var res = []
+  const firstEmpty = findEmptySquare(board)
+  if(firstEmpty != undefined){
+    const y = firstEmpty[0]
+    const x = firstEmpty[1]
+    
+  }
+  return res
 }
 
