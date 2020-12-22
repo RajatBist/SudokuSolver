@@ -116,3 +116,18 @@ function findEmptySquare(board){
   }
 }
 
+function keepOnlyValid(boards){
+  return boards.filter((b)=>validBoards(b))
+}
+
+
+function validBoard(board){
+  return rowGood(board) && columnGood(board) && boxGood(board)
+}
+
+function rowGood(board){
+  
+}
+
+
+
