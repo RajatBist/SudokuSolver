@@ -1,4 +1,3 @@
-const b = null
 
 const board_null = [
              [b, b, b, b, b, b, b, b, b],
@@ -48,8 +47,8 @@ const board_impossible = [
              [b, b, b, b, b, b, b, b, 9]
 ]
 
-function solve_board()){
-  if(solved(board){
+function solve_board(){
+  if(solved(board)){
     return board;
   } 
   else{
@@ -78,7 +77,7 @@ function searchForSolution(boards){
 function solved(board){
   for(var i = 0; i<9; i++){
     for(var j = 0; j<9; j++){
-      if(board[i][j] == null){
+      if(board[i][j] === null){
         return false
       }
     }
@@ -89,7 +88,7 @@ function solved(board){
 function nextBoards(board){
   var res = []
   const firstEmpty = findEmptySquare(board)
-  if(firstEmpty != undefined){
+  if(firstEmpty !== undefined){
     const y = firstEmpty[0]
     const x = firstEmpty[1]
     for(var i = 1; i<=9; i++){
@@ -109,7 +108,7 @@ function nextBoards(board){
 function findEmptySquare(board){
   for(var i=0; i<9; i++){
     for(var j=0; j<9; j++){
-      if(board[i][j] == null){
+      if(board[i][j] === null){
         return [i, j]
       }
     }
@@ -133,7 +132,7 @@ function rowGood(board){
       if(cur.includes(board[i][j])){
         return false;
       }
-      else if(board[i][j] != null){
+      else if(board[i][j] !== null){
         cur.push(board[i][j])
       }
     }
@@ -149,7 +148,7 @@ function columnGood(board){
       if(cur.includes(board[j][i])){
         return false;
       }
-      else if(board[j][i] != null){
+      else if(board[j][i] !== null){
         cur.push(board[j][i])
       }
     }
@@ -163,7 +162,7 @@ function boxGood(board){
     [0, 0],[0, 1],[0, 2],
     [1, 0],[1, 1],[1, 2],
     [2, 0],[2, 1],[2, 2]
-  ]
+  ];
   
   for(var y = 0; y<9; y+=3){
     
