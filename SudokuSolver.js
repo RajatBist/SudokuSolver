@@ -126,7 +126,18 @@ function validBoard(board){
 }
 
 function rowGood(board){
-  
+  for(var i = 0; i<9; i++){
+    var cur = []
+    for(var j = 0; j<9; j++){
+      if(cur.includes(board[i][j])){
+        return false;
+      }
+      else if(board[i][j] != null){
+        cur.push(board[i][j])
+      }
+    }
+  }
+  return true
 }
 
 
