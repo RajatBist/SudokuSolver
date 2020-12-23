@@ -48,7 +48,7 @@ const board_impossible = [
              [b, b, b, b, b, b, b, b, 9]
 ]
 
-function solve_board(){
+function solve_board()){
   if(solved(board){
     return board;
   } 
@@ -168,7 +168,7 @@ function boxGood(board){
   for(var y = 0; y<9; y+=3){
     
         for(var x=0; x<9; x+=3){  
-            var = cur[]
+            var cur = []
 
                 for(var i; i<9; i++){
                       var coordinates = [...boxCoordinates[i]]
