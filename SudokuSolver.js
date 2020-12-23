@@ -1,6 +1,6 @@
 const b = null
 
-const board_1 = [
+const board_null = [
              [b, b, b, b, b, b, b, b, b],
              [b, b, b, b, b, b, b, b, b],
              [b, b, b, b, b, b, b, b, b],
@@ -164,21 +164,28 @@ function boxGood(board){
     [1, 0],[1, 1],[1, 2],
     [2, 0],[2, 1],[2, 2]
   ]
-  for(var y = 0; y<9; y+=3){
-    for(var x=0; x<9; x+=3){
-      var = cur[]
-      for(var i; i<9; i++){
-        var coordinates = [...boxCoordinates[i]]
-        coordinates[0]+=y
-        coordinates[1]+=x
-        if(cur.includes(board[coordinates[0]][coordinates[1]])){
-          return false
-        }
-        else if(board[coordinates[0]][coordinates[1]] != null){
-          cur.push(board[coordinates[0]][coordinates[1]])
-        }
-      }
-    }
-  }
   
+  for(var y = 0; y<9; y+=3){
+    
+        for(var x=0; x<9; x+=3){  
+            var = cur[]
+
+                for(var i; i<9; i++){
+                      var coordinates = [...boxCoordinates[i]]
+                      coordinates[0]+=y
+                      coordinates[1]+=x
+
+                      if(cur.includes(board[coordinates[0]][coordinates[1]])){
+                          return false
+                      }
+
+                      else if(board[coordinates[0]][coordinates[1]] != null){
+                          cur.push(board[coordinates[0]][coordinates[1]])
+                      }
+                 }
+        }
+   }
+      return true
 }
+
+console.log(solve(board_null))
