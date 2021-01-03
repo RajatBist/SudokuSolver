@@ -1,0 +1,35 @@
+#initialBoard {
+  float: left;
+  margin-left: 20%;
+  margin-top: 10%;
+}
+
+#answerBoard {
+  float: right;
+  margin-right: 20%;
+  margin-top: 10%;
+}
+
+p{
+    font-size: 20px;
+}
+
+input{
+  font-size: 17px;
+  height: 40px;
+  margin: 3px;
+  width: 40px;
+}
+
+button{
+    font-size: 30px;
+    margin-left: 10px;
+    margin-top: 5%;
+}
+h2 {
+  margin-top: 6%;
+  text-align: center;
+}
+.author{
+    font-size: 17px;
+}
