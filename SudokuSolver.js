@@ -1,168 +1,180 @@
-
-
-const board_null = [
-             [null, null, null, null, null, null, null, null, null],
-             [null, null, null, null, null, null, null, null, null],
-             [null, null, null, null, null, null, null, null, null],
-             [null, null, null, null, null, null, null, null, null],
-             [null, null, null, null, null, null, null, null, null],
-             [null, null, null, null, null, null, null, null, null],
-             [null, null, null, null, null, null, null, null, null],
-             [null, null, null, null, null, null, null, null, null],
-             [null, null, null, null, null, null, null, null, null]
-];
-const board_sample = [
-             [1, null, null, null, null, null, null, null, 3],
-             [null, null, null, null, null, null, null, null, null],
-             [null, null, null, null, 8, null, null, null, null],
-             [null, null, null, null, null, null, null, null, null],
-             [null, null, null, null, null, null, null, null, null],
-             [null, null, null, null, null, null, 4, null, null],
-             [null, null, null, null, null, null, null, null, null],
-             [null, 3, null, null, null, null, null, null, null],
-             [null, null, null, null, null, null, null, null, 9]
-];
-
-
-function solve(board){
-  if(solved(board)){
-    return board;
-  } 
-  else{
-    const possibilities = nextBoards(boards);
-    const validBoards = keepOnlyValid(possibilities);
-    return searchForSolution(validBoards);
+function initiate () {
+  // null -> null
+  // populate the board with whatever the user inputted
+  var startingBoard = [[]]
+  var j = 0
+  for (var i = 1; i <= 81; i++) {
+    const val = document.getElementById(String(i)).value
+    if (val === "") {
+      startingBoard[j].push(null)
+    } else {
+      startingBoard[j].push(Number(val))
+    }
+    if (i % 9 === 0 && i < 81) {
+      startingBoard.push([])
+      j++
+    }
+  }
+  const inputValid = validBoard(startingBoard)
+  if (!inputValid) {
+    inputIsInvalid()
+  } else {
+    const answer = solve(startingBoard)
+    updateBoard(answer, inputValid)
   }
 }
 
-function searchForSolution(boards){
-  if(boards.length< 1){
-    return false;
-  } 
-  else{
-    var first = boards.shift();
-    const tryPath = solveFirst(first);
-    if(tryPath){
-      return tryPath;
-    } 
-    else{
-      return searchForSolution(boards);
+function solve (board) {
+  if (solved(board)) {
+    return board
+  } else {
+    const possibilities = nextBoards(board)
+    const validBoards = keepOnlyValid(possibilities)
+    return searchForSolution(validBoards)
+  }
+}
+
+function searchForSolution (boards) {
+  if (boards.length < 1) {
+    return false
+  } else {
+    var first = boards.shift()
+    const tryPath = solve(first)
+    if (tryPath !== false) {
+      return tryPath
+    } else {
+      return searchForSolution(boards)
     }
   }
 }
 
-function solved(board){
-  for(var i = 0; i<9; i++){
-    for(var j = 0; j<9; j++){
-      if(board[i][j] === null){
-        return false;
+function solved (board) {
+  for (var i = 0; i < 9; i++) {
+    for (var j = 0; j < 9; j++) {
+      if (board[i][j] == null) {
+        return false
       }
     }
   }
-  return true;
+  return true
 }
 
-function nextBoards(board){
-  var res = [];
-  const firstEmpty = findEmptySquare(board);
-  if(firstEmpty !== undefined){
-    const y = firstEmpty[0];
-    const x = firstEmpty[1];
-    for(var i = 1; i<=9; i++){
-      var newBoard = [...board];
-      var row = [...newBoard[y]];
-      row[x] = i;
-      newBoard[y] = row;
-      res.push(newBoard);
+function nextBoards (board) {
+  var res = []
+  const firstEmpty = findEmptySquare(board)
+  if (firstEmpty !== undefined) {
+    const y = firstEmpty[0]
+    const x = firstEmpty[1]
+    for (var i = 1; i <= 9; i++) {
+      var newBoard = [...board]
+      var row = [...newBoard[y]]
+      row[x] = i
+      newBoard[y] = row
+      res.push(newBoard)
     }
-        
   }
-  return res;
+  return res
 }
 
-
-
-function findEmptySquare(board){
-  for(var i=0; i<9; i++){
-    for(var j=0; j<9; j++){
-      if(board[i][j] === null){
-        return [i, j];
+function findEmptySquare (board) {
+  for (var i = 0; i < 9; i++) {
+    for (var j = 0; j < 9; j++) {
+      if (board[i][j] == null) {
+        return [i, j]
       }
     }
   }
 }
 
-function keepOnlyValid(boards){
-  return boards.filter((b)=>validBoards(b));
+function keepOnlyValid (boards) {
+  var res = []
+  for (var i = 0; i < boards.length; i++) {
+    if (validBoard(boards[i])) {
+      res.push(boards[i])
+    }
+  }
+  return res
 }
 
-
-function validBoard(board){
-  return rowGood(board) && columnGood(board) && boxGood(board);
+function validBoard (board) {
+  return rowsGood(board) && columnsGood(board) && boxesGood(board)
 }
 
-//check for tduplicates in the same row
-function rowGood(board){
-  for(var i = 0; i<9; i++){
-    var cur = [];
-    for(var j = 0; j<9; j++){
-      if(cur.includes(board[i][j])){
-        return false;
-      }
-      else if(board[i][j] !== null){
-        cur.push(board[i][j]);
+function rowsGood (board) {
+  for (var i = 0; i < 9; i++) {
+    var cur = []
+    for (var j = 0; j < 9; j++) {
+      if (cur.includes(board[i][j])) {
+        return false
+      } else if (board[i][j] != null) {
+        cur.push(board[i][j])
       }
     }
   }
-  return true;
+  return true
 }
 
-//check for duplicates in the same column
-function columnGood(board){
-  for(var i = 0; i<9; i++){
-    var cur = [];
-    for(var j = 0; j<9; j++){
-      if(cur.includes(board[j][i])){
-        return false;
-      }
-      else if(board[j][i] !== null){
-        cur.push(board[j][i]);
+function columnsGood (board) {
+  for (var i = 0; i < 9; i++) {
+    var cur = []
+    for (var j = 0; j < 9; j++) {
+      if (cur.includes(board[j][i])) {
+        return false
+      } else if (board[j][i] != null) {
+        cur.push(board[j][i])
       }
     }
   }
-  return true;
+  return true
 }
 
-//check for duplicates in the same box
-function boxGood(board){
+function boxesGood (board) {
   const boxCoordinates = [
-    [0, 0],[0, 1],[0, 2],
-    [1, 0],[1, 1],[1, 2],
-    [2, 0],[2, 1],[2, 2]
-  ];
-  
-  for(var y = 0; y<9; y+=3){
-    
-        for(var x=0; x<9; x+=3){  
-            var cur = [];
-
-                for(var i; i<9; i++){
-                      var coordinates = [...boxCoordinates[i]];
-                      coordinates[0]+=y;
-                      coordinates[1]+=x;
-
-                      if(cur.includes(board[coordinates[0]][coordinates[1]])){
-                          return false;
-                      }
-
-                      else if(board[coordinates[0]][coordinates[1]] !== null){
-                          cur.push;
-                          (board[coordinates[0]][coordinates[1]]);
-                      }
-                 }
+    [0, 0], [0, 1], [0, 2],
+    [1, 0], [1, 1], [1, 2],
+    [2, 0], [2, 1], [2, 2]
+  ]
+  for (var y = 0; y < 9; y += 3) {
+    for (var x = 0; x < 9; x += 3) {
+      var cur = []
+      for (var i = 0; i < 9; i++) {
+        var coordinates = [...boxCoordinates[i]]
+        coordinates[0] += y
+        coordinates[1] += x
+        if (cur.includes(board[coordinates[0]][coordinates[1]])) {
+          return false
+        } else if (board[coordinates[0]][coordinates[1]] != null) {
+          cur.push(board[coordinates[0]][coordinates[1]])
         }
-   }
-      return true;
+      }
+    }
+  }
+  return true
 }
 
-console.log(solve(board_null));
+function updateBoard (board) {
+  if (board === false) {
+    for (i = 1; i <= 9; i++) {
+      document.getElementById("row " + String(i)).innerHTML = "NO SOLUTION EXISTS TO THE GIVEN BOARD"
+    }
+  } else {
+    for (var i = 1; i <= 9; i++) {
+      var row = ""
+      for (var j = 0; j < 9; j++) {
+        if (row === "") {
+          row = row + String(board[i - 1][j])
+        } else {
+          row = row + "\xa0\xa0\xa0\xa0\xa0\xa0\xa0" + String(board[i - 1][j])
+        }
+      }
+      document.getElementById("row " + String(i)).innerHTML = row
+    }
+  }
+}
+
+function inputIsInvalid () {
+  for (i = 1; i <= 9; i++) {
+    document.getElementById("row " + String(i)).innerHTML = "THE GIVEN BOARD IS INVALID"
+  }
+}
+
